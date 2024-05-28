@@ -1,28 +1,16 @@
-import { useState, useEffect } from 'react'
-import ReceiptCard from './components/ReceiptCard'
+import { Route, Routes } from 'react-router-dom'
+import ReceiptList from './components/ReceiptList'
+import ReceiptDetails from './components/ReceiptDetails'
 import './App.css'
 function App () {
-  const [receipts, setReceipts] = useState([])
-  useEffect(() => {
-    fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=c')
-      .then((response) => {
-        return response.json()
-      }).then((results) => {
-        setReceipts(results.meals)
-      }).catch((error) => {
-        console.log(error)
-      })
-  }, [])
   return (
-    <>
-      <h1>Recetario</h1>
-      <div className='grid-cards'>
-        {receipts.map((receipt) => (
-          <ReceiptCard key={receipt.idMeal} url={receipt.strMealThumb} title={receipt.strMeal} />
-        ))}
-      </div>
-    </>
+    <div>
+      <h2>Recetario de MealDB</h2>
+      <Routes>
+        <Route exact path='/' element={<ReceiptList />} />
+        <Route path='/receipts/:id' element={<ReceiptDetails />} />
+      </Routes>
+    </div>
   )
 }
-
 export default App
