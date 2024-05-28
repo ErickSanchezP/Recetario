@@ -19,26 +19,34 @@ const ReceiptList = () => {
     navigate(`/receipts/${id}`)
   }
 
-  if (receipts.length) {
-    return (
-      <>
-        <h1>Lista</h1>
-        <div className='grid-cards'>
-          {receipts.map((receipt) => (
-            <div
-              className='receipt-card'
-              key={receipt.idMeal}
-              onClick={() => openReceipt(receipt.idMeal)}
-            >
-              <img className='image-view' src={receipt.strMealThumb} />
-              <div className='title'>{receipt.strMeal}</div>
-              <div className='link'>Read more</div>
-            </div>
-          ))}
-        </div>
-      </>
-    )
-  }
+  return (
+    <>
+      <h1>Lista</h1>
+      <input
+        type='text'
+        placeholder='Filtrar por nombre'
+        onChange={(e) => {
+          const filteredReceipts = receipts.filter((receipt) =>
+            receipt.strMeal.toLowerCase().includes(e.target.value.toLowerCase())
+          )
+          setReceipts(filteredReceipts)
+        }}
+      />
+      <div className='grid-cards'>
+        {receipts.map((receipt) => (
+          <div
+            className='receipt-card'
+            key={receipt.idMeal}
+            onClick={() => openReceipt(receipt.idMeal)}
+          >
+            <img className='image-view' src={receipt.strMealThumb} />
+            <div className='title'>{receipt.strMeal}</div>
+            <div className='link'>Ver más</div>
+          </div>
+        ))}
+      </div>
+    </>
+  )
 }
 
 export default ReceiptList
